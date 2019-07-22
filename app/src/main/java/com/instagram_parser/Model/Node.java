@@ -32,6 +32,8 @@ public class Node
 
     private Edge_media_to_tagged_user edge_media_to_tagged_user;
 
+    private Owner owner;
+
     public void set__typename(String __typename){
         this.__typename = __typename;
     }
@@ -117,5 +119,13 @@ public class Node
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 }
