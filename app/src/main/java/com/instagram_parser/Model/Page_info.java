@@ -1,5 +1,7 @@
 package com.instagram_parser.Model;
 
+import java.util.List;
+
 public class Page_info
 {
     private boolean has_next_page;
@@ -19,3 +21,5 @@ public class Page_info
         return this.end_cursor;
     }
 }
+
+

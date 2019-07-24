@@ -1,20 +1,24 @@
 package com.instagram_parser.Model;
 
-public class Comment {
+import java.io.Serializable;
+
+public class Comment implements Serializable {
     private String id;
     private String ownerName;
     private String commentText;
     private String picUrl;
+    private long created;
     private boolean isActive;
 
     public Comment() {
     }
 
-    public Comment(String id, String ownerName, String commentText, String picUrl, boolean isActive) {
+    public Comment(String id, String ownerName, String commentText, String picUrl, long created, boolean isActive) {
         this.id = id;
         this.ownerName = ownerName;
         this.commentText = commentText;
         this.picUrl = picUrl;
+        this.created = created;
         this.isActive = isActive;
     }
 
@@ -56,5 +60,13 @@ public class Comment {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public long getCreated() {
+        return created;
+    }
+
+    public void setCreated(long created) {
+        this.created = created;
     }
 }

@@ -1,5 +1,4 @@
 package com.instagram_parser.Model;
-
 public class Display_resources
 {
     private String src;

@@ -1,21 +1,20 @@
 package com.instagram_parser.Model;
+public class Dimensions
+{
+    private int height;
 
-class Dimensions {
-        private int height;
+    private int width;
 
-        private int width;
-
-        public void setHeight(int height){
+    public void setHeight(int height){
         this.height = height;
     }
-        public int getHeight(){
+    public int getHeight(){
         return this.height;
     }
-        public void setWidth(int width){
+    public void setWidth(int width){
         this.width = width;
     }
-        public int getWidth(){
+    public int getWidth(){
         return this.width;
     }
-
 }

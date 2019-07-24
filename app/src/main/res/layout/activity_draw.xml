@@ -8,13 +8,13 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -23,64 +23,77 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/asilSayisi" />
+            android:text="@string/asilSayisi"
+            android:textColor="@android:color/white" />
 
         <EditText
             android:id="@+id/draw_asil_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text" />
+            android:background="@drawable/rounded_edit_text"
+            android:ems="5"
+            android:inputType="number"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:orientation="horizontal"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/draw_yedek_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/yedekSayisi" />
+            android:text="@string/yedekSayisi"
+            android:textColor="@android:color/white" />
 
         <EditText
             android:id="@+id/draw_yedek_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text" />
+            android:background="@drawable/rounded_edit_text"
+            android:ems="5"
+            android:inputType="number"
+            android:textSize="14sp" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <ListView
+        android:id="@+id/draw_comment_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/list_view_shape"
+        app:layout_constraintBottom_toTopOf="@+id/draw_cekilis_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/draw_cekilis_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/button_shape"
+        android:padding="10dp"
         android:text="@string/cekilisYap"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

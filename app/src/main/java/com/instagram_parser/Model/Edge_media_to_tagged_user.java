@@ -1,7 +1,6 @@
 package com.instagram_parser.Model;
-
+import java.util.ArrayList;
 import java.util.List;
-
 public class Edge_media_to_tagged_user
 {
     private List<String> edges;
