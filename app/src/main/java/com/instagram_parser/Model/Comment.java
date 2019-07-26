@@ -5,21 +5,27 @@ import java.io.Serializable;
 public class Comment implements Serializable {
     private String id;
     private String ownerName;
+    private String ownerId;
     private String commentText;
     private String picUrl;
     private long created;
     private boolean isActive;
+    private boolean isAccepted;
+    private boolean isMathedLabelCount;
 
     public Comment() {
     }
 
-    public Comment(String id, String ownerName, String commentText, String picUrl, long created, boolean isActive) {
+    public Comment(String id, String ownerName, String ownerId, String commentText, String picUrl, long created) {
         this.id = id;
         this.ownerName = ownerName;
+        this.ownerId = ownerId;
         this.commentText = commentText;
         this.picUrl = picUrl;
         this.created = created;
-        this.isActive = isActive;
+        this.isActive = true;
+        this.isMathedLabelCount = true;
+        this.isAccepted =true;
     }
 
     public String getId() {
@@ -68,5 +74,29 @@ public class Comment implements Serializable {
 
     public void setCreated(long created) {
         this.created = created;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public boolean isAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        isAccepted = accepted;
+    }
+
+    public boolean isMathedLabelCount() {
+        return isMathedLabelCount;
+    }
+
+    public void setMathedLabelCount(boolean mathedLabelCount) {
+        isMathedLabelCount = mathedLabelCount;
     }
 }

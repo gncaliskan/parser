@@ -53,7 +53,7 @@
             android:background="@drawable/rounded_edit_text"
             android:ems="10"
             android:inputType="textMultiLine"
-            android:text="https://www.instagram.com/p/B0JFgGajUQI/?utm_source=ig_web_copy_link"
+            android:text="https://www.instagram.com/p/B0RkDD9HbK_/?utm_source=ig_web_copy_link"
             android:textSize="14sp" />
 
         <Button

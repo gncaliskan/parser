@@ -3,12 +3,13 @@ import java.util.ArrayList;
 import java.util.List;
 public class Edge_media_to_tagged_user
 {
-    private List<String> edges;
+    private List<Edges> edges;
 
-    public void setEdges(List<String> edges){
-        this.edges = edges;
+    public List<Edges> getEdges() {
+        return edges;
     }
-    public List<String> getEdges(){
-        return this.edges;
+
+    public void setEdges(List<Edges> edges) {
+        this.edges = edges;
     }
 }

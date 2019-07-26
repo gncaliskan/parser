@@ -12,6 +12,7 @@ import com.google.gson.JsonParser;
 import com.instagram_parser.DrawActivity;
 import com.instagram_parser.MainActivity;
 import com.instagram_parser.Model.Comment;
+import com.instagram_parser.Model.CommentList;
 import com.instagram_parser.Model.Edges;
 import com.instagram_parser.Model.Node;
 import com.instagram_parser.Model.Shortcode_media;
@@ -34,9 +35,9 @@ import java.util.logging.Logger;
 
 public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
     public static final String REQUEST_METHOD_GET = "GET";
-    public static final int READ_TIMEOUT = 15000;
-    public static final int CONNECTION_TIMEOUT = 15000;
-    public static final int FIRST = 40;
+    public static final int READ_TIMEOUT = 150000;
+    public static final int CONNECTION_TIMEOUT = 150000;
+    public static final int FIRST = 50;
     public static final int FIRST_COMMENTS_SIZE = 24;
 
     private ProgressDialog progressDialog;
@@ -99,7 +100,7 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
                             comments = new ArrayList<>();
                             convertToCommentList(shortcodeMedia);
                             //if (shortcodeMedia.getEdge_media_to_parent_comment().getEdges().size() == FIRST_COMMENTS_SIZE) {
-                                getNextComments(shortcodeMedia, shortcodeMedia.getEdge_media_to_parent_comment().getPage_info().getEnd_cursor());
+                            getNextComments(shortcodeMedia, shortcodeMedia.getEdge_media_to_parent_comment().getPage_info().getEnd_cursor());
                             //}
                         }
                     }
@@ -127,7 +128,7 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
         }
         for (Edges edge : mediaEdgeList) {
             Node node = edge.getNode();
-            Comment comment = new Comment(node.getId(), node.getOwner().getUsername(), node.getText(), node.getOwner().getProfile_pic_url(), node.getCreated_at(), true);
+            Comment comment = new Comment(node.getId(), node.getOwner().getUsername(), node.getOwner().getId(), node.getText(), node.getOwner().getProfile_pic_url(), node.getCreated_at());
             if (comments.size() < commentSize) {
                 comments.add(comment);
             } else {
@@ -137,25 +138,24 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
     }
 
     private void getNextComments(Shortcode_media shortcode_media, String after) {
+        if(after!=null) {
+            String generatedURL = generateURL(shortcode_media.getShortcode(), String.valueOf(FIRST), after);
+            String nextResult = getJSON(generatedURL);
+            if (nextResult != null) {
+                JsonElement jsonTree = parser.parse(nextResult);
+                if (jsonTree.isJsonObject()) {
+                    JsonObject jsonObject = jsonTree.getAsJsonObject();
+                    JsonElement data = jsonObject.get("data");
 
-        String generatedURL = generateURL(shortcode_media.getShortcode(), String.valueOf(FIRST), after);
-        String nextResult = getJSON(generatedURL);
-        if (nextResult != null) {
+                    if (data.isJsonObject()) {
+                        JsonObject dataObject = data.getAsJsonObject();
+                        JsonElement shortcode = dataObject.get("shortcode_media");
+                        Shortcode_media shortcodeMedia = gson.fromJson(shortcode, Shortcode_media.class);
 
-
-            JsonElement jsonTree = parser.parse(nextResult);
-            if (jsonTree.isJsonObject()) {
-                JsonObject jsonObject = jsonTree.getAsJsonObject();
-                JsonElement data = jsonObject.get("data");
-
-                if (data.isJsonObject()) {
-                    JsonObject dataObject = data.getAsJsonObject();
-                    JsonElement shortcode = dataObject.get("shortcode_media");
-                    Shortcode_media shortcodeMedia = gson.fromJson(shortcode, Shortcode_media.class);
-
-                    convertToCommentList(shortcodeMedia);
-                    if (shortcodeMedia.getEdge_media_to_comment().getEdges().size() == FIRST) {
+                        convertToCommentList(shortcodeMedia);
+                        // if (shortcodeMedia.getEdge_media_to_comment().getEdges().size() == FIRST) {
                         getNextComments(shortcode_media, shortcodeMedia.getEdge_media_to_comment().getPage_info().getEnd_cursor());
+                        //}
                     }
                 }
             }
@@ -189,6 +189,15 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
                     }
                     br.close();
                     return sb.toString();
+                default:
+                    BufferedReader brError = new BufferedReader(new InputStreamReader(c.getErrorStream()));
+                    StringBuilder sbError = new StringBuilder();
+                    String lineError;
+                    while ((lineError = brError.readLine()) != null) {
+                        sbError.append(lineError + "\n");
+                    }
+                    brError.close();
+                    return sbError.toString();
             }
 
         } catch (MalformedURLException ex) {
@@ -225,8 +234,9 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         progressDialog.dismiss();
+        CommentList commentList = CommentList.getInstance();
+        commentList.setComments(comments);
         Intent intent = new Intent(MainActivity.getMainContext(), DrawActivity.class);
-        intent.putExtra(Constants.COMMENT_LIST, (Serializable) comments);
         MainActivity.getMainContext().startActivity(intent);
 
     }

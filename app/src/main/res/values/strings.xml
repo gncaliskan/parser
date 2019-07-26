@@ -4,13 +4,19 @@
     <string name="postAdresi">Instagramdaki gönderinizin adresini girin</string>
     <string name="title_activity_comments">CommentsActivity</string>
 
-    <string name="asilSayisi">Asıl Sayısı</string>
+    <string name="asilSayisi">Asil Sayısı</string>
     <string name="yedekSayisi">Yedek Sayısı</string>
+    <string name="etiketSayisi">Etiket Sayısı</string>
+    <string name="cokluYorumaIzınVerme">Çoklu Yoruma İzin Verme</string>
     <string name="cekilisYap">Çekiliş Yap</string>
     <string name="talihliler">Talihliler</string>
-    <string name="asillar">Asıllar</string>
+    <string name="asillar">Asiller</string>
     <string name="yedekler">Yedekler</string>
-    <string name="title_activity_draw">DrawActivity</string>
+    <string name="Yardım">Yardım</string>
+    <string name="asilTalihliler">Asil Talihliler</string>
+    <string name="yedekTalihliler">Yedek Talihliler</string>
+    <string name="yorumlari">Yorumları</string>
+    <string name="tekrarEt">Çekilişi Tekrar Et</string>
 
 
     <string name="commentList">COMMENT_LIST</string>

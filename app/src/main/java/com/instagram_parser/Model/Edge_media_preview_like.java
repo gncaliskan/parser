@@ -5,7 +5,7 @@ public class Edge_media_preview_like
 {
     private int count;
 
-    private List<String> edges;
+    private List<Edges> edges;
 
     public void setCount(int count){
         this.count = count;
@@ -13,10 +13,12 @@ public class Edge_media_preview_like
     public int getCount(){
         return this.count;
     }
-    public void setEdges(List<String> edges){
-        this.edges = edges;
+
+    public List<Edges> getEdges() {
+        return edges;
     }
-    public List<String> getEdges(){
-        return this.edges;
+
+    public void setEdges(List<Edges> edges) {
+        this.edges = edges;
     }
 }

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.instagram_parser.Model.Comment;
+import com.instagram_parser.Model.CommentList;
 import com.instagram_parser.R;
 
 import java.util.List;
@@ -22,11 +23,12 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
     CommentItemHolder holder;
     Context context;
 
-    public CommentListAdapter(@NonNull Context context, @NonNull List<Comment> comments) {
-        super(context, 0, comments);
+    public CommentListAdapter(@NonNull Context context) {
+        super(context, 0);
         inflater = LayoutInflater.from(context);
         this.context = context;
-        this.comments = comments;
+        this.comments = CommentList.getInstance().getComments();
+
 
     }
 
@@ -58,7 +60,7 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
             //Get viewholder we already created
             holder = (CommentItemHolder) convertView.getTag();
         }
-
+        this.comments = CommentList.getInstance().getComments();
         final Comment comment = comments.get(position);
         if(comment != null){
             holder.username.setText(comment.getOwnerName());
@@ -89,11 +91,7 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
         return convertView;
     }
 
-    private void setItemStatus(){
-
-    }
-
-    private static class CommentItemHolder {
+    private class CommentItemHolder {
         TextView username;
         TextView comment;
         Button delete;
