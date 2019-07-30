@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#17685A</color>
-    <color name="colorPrimaryDark">#074439</color>
-    <color name="colorAccent">#9D2231</color>
+    <color name="colorPrimaryDark">#1A5586</color>
+    <color name="colorAccent">#6EA34A</color>
     <color name="trashColor">#CE5563</color>
-    <color name="transparentWhite">#88FFFFFF</color>
+    <color name="transparentWhite">#C9FFFFFF</color>
     <color name="transparentGray">#88868585</color>
     <color name="lightGrey">#CAC9C9</color>
     <color name="darkRed">#BE1A1A</color>
     <color name="transparent">#00000000</color>
+
+    <color name="errorColor">#CCA83C36</color>
+    <color name="warningColor">#CCE27420</color>
+    <color name="infoColor">#CC3E588D</color>
+    <color name="successColor">#CC538D3E</color>
+    <color name="tintColor">#fffb00</color>
+    <color name="mainBgColor">#F8F8F3</color>
+
 
 </resources>

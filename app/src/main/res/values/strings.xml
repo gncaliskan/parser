@@ -2,12 +2,14 @@
     <string name="app_name">Yonca</string>
     <string name="yorumlariGetir">Yorumları Getir</string>
     <string name="postAdresi">Instagramdaki gönderinizin adresini girin</string>
-    <string name="title_activity_comments">CommentsActivity</string>
+    <string name="cekilisiKaydet">Çekilişi video olarak kaydet</string>
 
+
+    <string name="kurallar">Çekiliş Kurallarınızı Girin</string>
     <string name="asilSayisi">Asil Sayısı</string>
     <string name="yedekSayisi">Yedek Sayısı</string>
-    <string name="etiketSayisi">Etiket Sayısı</string>
-    <string name="cokluYorumaIzınVerme">Çoklu Yoruma İzin Verme</string>
+    <string name="etiketSayisi">Yorumun İçindeki Etiket Sayısı</string>
+    <string name="cokluYorumaIzınVerme">Aynı Kişiden Çoklu Yoruma İzin Verme</string>
     <string name="cekilisYap">Çekiliş Yap</string>
     <string name="talihliler">Talihliler</string>
     <string name="asillar">Asiller</string>
@@ -17,9 +19,17 @@
     <string name="yedekTalihliler">Yedek Talihliler</string>
     <string name="yorumlari">Yorumları</string>
     <string name="tekrarEt">Çekilişi Tekrar Et</string>
+    <string name="kaydiDurdur">Kaydı Durdur</string>
 
+    <string name="ekranKayitIzniVerilmedi">Ekran Kaydı İçin İzin Verilmedi.</string>
+    <string name="bellegeUlasilamadi">Belleğe ulşırken hata oluştu.</string>
+    <string name="klasorOlusturulamadi">Bellekte Yonca klasörü oluşturulamadı.</string>
+    <string name="yorumCekildi">yorum çekildi.</string>
+    <string name="asilTalihliSayisiError">Asıl talihli sayısını girmelisiniz.</string>
+    <string name="talihliYorumdanBuyuk">Talihli sayınız yorumların sayısından büyük olamaz.</string>
+    <string name="talihliKatilandanBuyuk">Talihli sayınız yorum yapan sayısından büyük olamaz.</string>
+    <string name="urlGirilmedi">Lütfen kampanyanızın bağlantısını girin.</string>
 
-    <string name="commentList">COMMENT_LIST</string>
 
 
 </resources>

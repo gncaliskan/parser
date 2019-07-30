@@ -2,7 +2,11 @@ package com.instagram_parser.Service;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.hardware.display.DisplayManager;
+import android.hardware.display.VirtualDisplay;
+import android.media.MediaRecorder;
 import android.os.AsyncTask;
+import android.util.DisplayMetrics;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -47,15 +51,16 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
     List<Edges> mediaEdgeList;
     JsonParser parser;
     Gson gson;
+    boolean record;
 
-    public FetchCommentsService(String url) {
+    public FetchCommentsService(String url, boolean record) {
+        this.record = record;
         this.url = url;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
         progressDialog = new ProgressDialog(MainActivity.getMainContext());
         progressDialog.setTitle("YORUMLAR");
         progressDialog.setMessage("Yorumlar Çekiliyor...");
@@ -67,7 +72,6 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
 
         try {
-
             Document doc = Jsoup.connect(url).get();
             mediaEdgeList = new ArrayList<>();
             parser = new JsonParser();
@@ -138,7 +142,7 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
     }
 
     private void getNextComments(Shortcode_media shortcode_media, String after) {
-        if(after!=null) {
+        if (after != null) {
             String generatedURL = generateURL(shortcode_media.getShortcode(), String.valueOf(FIRST), after);
             String nextResult = getJSON(generatedURL);
             if (nextResult != null) {
@@ -238,7 +242,22 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
         commentList.setComments(comments);
         Intent intent = new Intent(MainActivity.getMainContext(), DrawActivity.class);
         MainActivity.getMainContext().startActivity(intent);
+        if (record) {
+            ScreenRecordingService.prepareRecording();
+            ScreenRecordingService.mVirtualDisplay = getVirtualDisplay();
+            ScreenRecordingService.mMediaRecorder.start();
+        }
+    }
 
+    private VirtualDisplay getVirtualDisplay() {
+        int screenDensity = ScreenRecordingService.mDisplayMetrics.densityDpi;
+        int width = ScreenRecordingService.mDisplayMetrics.widthPixels;
+        int height = ScreenRecordingService.mDisplayMetrics.heightPixels;
+
+        return ScreenRecordingService.mMediaProjection.createVirtualDisplay(this.getClass().getSimpleName(),
+                width, height, screenDensity,
+                DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                ScreenRecordingService.mMediaRecorder.getSurface(), null /*Callbacks*/, null /*Handler*/);
     }
 
 }

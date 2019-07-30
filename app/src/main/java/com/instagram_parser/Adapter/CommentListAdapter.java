@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.instagram_parser.Model.Comment;
@@ -34,7 +33,10 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
 
     @Override
     public int getCount() {
-        return comments.size();
+        if(comments!=null) {
+            return comments.size();
+        }
+        return 0;
     }
 
     @Nullable
@@ -71,16 +73,16 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(comments.get(position).isActive()) {
-                    comments.get(position).setActive(false);
+                if(comments.get(position).isNotDeleted()) {
+                    comments.get(position).setNotDeleted(false);
                 }else{
-                    comments.get(position).setActive(true);
+                    comments.get(position).setNotDeleted(true);
                 }
                 notifyDataSetChanged();
             }
         });
 
-        if(comments.get(position).isActive()){
+        if(getActiveStatus(comment)){
             holder.delete.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_delete), null);
             convertView.setAlpha(1);
         }else{
@@ -89,6 +91,13 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
         }
 
         return convertView;
+    }
+
+    private boolean getActiveStatus(Comment c){
+        if(c.isMathedLabelCount() && c.isAccepted() && c.isNotDeleted()){
+           return true;
+        }
+        return false;
     }
 
     private class CommentItemHolder {

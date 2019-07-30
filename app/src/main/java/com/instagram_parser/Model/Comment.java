@@ -10,6 +10,7 @@ public class Comment implements Serializable {
     private String picUrl;
     private long created;
     private boolean isActive;
+    private boolean isNotDeleted;
     private boolean isAccepted;
     private boolean isMathedLabelCount;
 
@@ -23,9 +24,10 @@ public class Comment implements Serializable {
         this.commentText = commentText;
         this.picUrl = picUrl;
         this.created = created;
-        this.isActive = true;
+        this.isNotDeleted = true;
         this.isMathedLabelCount = true;
         this.isAccepted =true;
+        this.isActive = true;
     }
 
     public String getId() {
@@ -60,12 +62,12 @@ public class Comment implements Serializable {
         this.picUrl = picUrl;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean isNotDeleted() {
+        return isNotDeleted;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setNotDeleted(boolean notDeleted) {
+        isNotDeleted = notDeleted;
     }
 
     public long getCreated() {
@@ -98,5 +100,13 @@ public class Comment implements Serializable {
 
     public void setMathedLabelCount(boolean mathedLabelCount) {
         isMathedLabelCount = mathedLabelCount;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

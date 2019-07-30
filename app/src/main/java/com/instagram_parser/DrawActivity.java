@@ -1,7 +1,9 @@
 package com.instagram_parser;
 
 import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -9,12 +11,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.instagram_parser.Adapter.CommentListAdapter;
 import com.instagram_parser.Model.Comment;
 import com.instagram_parser.Model.CommentList;
 import com.instagram_parser.System.Constants;
+import com.instagram_parser.Util.ToastUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,10 +38,12 @@ public class DrawActivity extends AppCompatActivity {
     ListView commentListView;
     EditText asilCount, yedekCount, etiketCount;
     CheckBox multipleComment;
-    Button cekilisYap;
+    Button cekilisYap,rulesButton;
     Map<String, List<Comment>> userCommentMap;
     int total, asil, yedek, uniqueListSize = 0;
     List<Comment> selectedComments;
+    TextView totalSize;
+    ConstraintLayout rulesLayout;
 
 
     @Override
@@ -50,14 +56,27 @@ public class DrawActivity extends AppCompatActivity {
         etiketCount = findViewById(R.id.draw_etiket_text);
         cekilisYap = findViewById(R.id.draw_cekilis_button);
         multipleComment = findViewById(R.id.draw_multiple_comment);
+        rulesButton = findViewById(R.id.draw_rules_button);
+        rulesLayout = findViewById(R.id.draw_rules);
+        totalSize = findViewById(R.id.draw_total_comment_size);
+        rulesLayout.setVisibility(View.GONE);
         selectedComments = new ArrayList<>();
         comments = CommentList.getInstance().getComments();
         convertListToMap();
+        if(comments!=null) {
+            totalSize.setText(String.valueOf(comments.size()) + " " + getResources().getString(R.string.yorumCekildi));
+        }
 
 
         commentListAdapter = new CommentListAdapter(getApplicationContext());
         commentListView.setAdapter(commentListAdapter);
 
+        rulesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               toggleRules();
+            }
+        });
 
         cekilisYap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,12 +108,6 @@ public class DrawActivity extends AppCompatActivity {
                     intent.putExtra(Constants.RESERVE_LIST, (Serializable) reserve);
                     intent.putExtra(Constants.ROYAL_LIST, (Serializable) royal);
                     startActivity(intent);
-
-                    StringBuilder sb = new StringBuilder();
-                    for (Comment a : winners) {
-                        sb.append(a.getOwnerName()).append(" - ");
-                    }
-                    Toast.makeText(getApplicationContext(), sb.toString(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -114,6 +127,14 @@ public class DrawActivity extends AppCompatActivity {
         });
     }
 
+    private void toggleRules(){
+        if(rulesLayout.getVisibility() == View.GONE){
+            rulesLayout.setVisibility(View.VISIBLE);
+        }else{
+            rulesLayout.setVisibility(View.GONE);
+        }
+    }
+
 
     private List<Comment> getSelectedComments() {
         filterComments();
@@ -121,7 +142,7 @@ public class DrawActivity extends AppCompatActivity {
         List<Comment> selectedComments = new ArrayList<>();
         uniqueListSize = 0;
         for (Comment c : CommentList.getInstance().getComments()) {
-            if (c.isActive()) {
+            if (c.isNotDeleted()) {
                 boolean alreadySelectedUser = false;
                 for (Comment selected : selectedComments) {
                     if (selected.getOwnerId().equals(c.getOwnerId())) {
@@ -174,16 +195,16 @@ public class DrawActivity extends AppCompatActivity {
             yedek = Integer.valueOf(yedekCount.getText().toString());
         }
         if (asil == 0) {
-            Toast.makeText(getApplicationContext(), "Asıl talihli sayısını girmelisiniz.", Toast.LENGTH_LONG).show();
+            ToastUtil.show(DrawActivity.this, R.string.asilTalihliSayisiError, ToastUtil.TOAST_ERROR);
             return false;
         }
         total = asil + yedek;
         if (total > selectedSize) {
-            Toast.makeText(getApplicationContext(), "Talihli sayınız yorumların sayısından büyük olamaz.", Toast.LENGTH_LONG).show();
+            ToastUtil.show(DrawActivity.this, R.string.talihliYorumdanBuyuk, ToastUtil.TOAST_WARNING);
             return false;
         }
         if (total > uniqueListSize) {
-            Toast.makeText(getApplicationContext(), "Talihli sayınız yorum yapan sayısından büyük olamaz.", Toast.LENGTH_LONG).show();
+            ToastUtil.show(DrawActivity.this, R.string.talihliKatilandanBuyuk, ToastUtil.TOAST_WARNING);
             return false;
         }
 
@@ -209,7 +230,6 @@ public class DrawActivity extends AppCompatActivity {
                     }
                     if (labelSize < labelCount) {
                         c.setMathedLabelCount(false);
-                        c.setActive(false);
                     }
                 }
             } else {
@@ -221,12 +241,11 @@ public class DrawActivity extends AppCompatActivity {
                 if (cList.size() > 1) {
                     int acceptedCount = 0;
                     for (Comment c : cList) {
-                        if (c.isActive() && c.isMathedLabelCount()) {
+                        if (c.isNotDeleted() && c.isMathedLabelCount()) {
                             acceptedCount++;
                         }
                         if (acceptedCount > 1) {
                             c.setAccepted(false);
-                            c.setActive(false);
                         }
                     }
                 }
