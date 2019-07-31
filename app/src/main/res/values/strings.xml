@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Yonca</string>
+    <string name="baglantiHatasi">İnternet bağlantınızı kontrol edin</string>
+    <string name="instagramaBaglan">Instagrama Bağlan</string>
+    <string name="instagramaBaglanHata">Instagrama bağlanırken bir hata oluştu. Lütfen tekrar deneyin.</string>
+    <string name="instagramaBaglanAciklama">Yorumlarınızın görüntülenebilmesi için Instagrama giriş yapmanız gerekmektedir.\n\nInstagrama giriş bilgileriniz doğrudan Instagram\'ın sistemi üzerinden alınır ve Yonca tarafından hiçbir şekilde giriş bilgilerinize ulaşılmaz.</string>
     <string name="yorumlariGetir">Yorumları Getir</string>
-    <string name="postAdresi">Instagramdaki gönderinizin adresini girin</string>
+    <string name="postAdresi">Çekilişi yapmak istediğiniz gönderinizi seçin</string>
     <string name="cekilisiKaydet">Çekilişi video olarak kaydet</string>
 
 
@@ -29,7 +33,6 @@
     <string name="talihliYorumdanBuyuk">Talihli sayınız yorumların sayısından büyük olamaz.</string>
     <string name="talihliKatilandanBuyuk">Talihli sayınız yorum yapan sayısından büyük olamaz.</string>
     <string name="urlGirilmedi">Lütfen kampanyanızın bağlantısını girin.</string>
-
 
 
 </resources>

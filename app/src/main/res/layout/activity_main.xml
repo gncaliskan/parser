@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mainBgColor"
@@ -9,27 +10,77 @@
 
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/logo_blue" />
-
-    <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/linearLayout"
-        android:layout_alignTop="@+id/linearLayout"
-        android:layout_alignEnd="@+id/linearLayout"
-        android:layout_alignBottom="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/main_getComments"
+        android:layout_marginBottom="20dp"
         android:scaleType="centerCrop"
         android:src="@drawable/small_bg"
-        android:tint="@color/colorPrimary"
+        android:tint="@color/colorPrimaryDark"
         android:tintMode="multiply" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/logo_small" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/main_getComments"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/main_postLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparentGray"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:text="@string/postAdresi"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/main_feeds"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="2" />
+
+        <CheckBox
+            android:id="@+id/main_record"
+            style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="right|top"
+            android:background="@color/transparentGray"
+            android:buttonTint="@android:color/white"
+            android:text="@string/cekilisiKaydet"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/main_getComments"
@@ -48,60 +99,6 @@
         android:text="@string/yorumlariGetir"
         android:textAllCaps="false"
         android:textColor="#FFFFFF" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_above="@+id/main_getComments"
-        android:layout_below="@+id/imageView"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingTop="50dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp">
-
-        <TextView
-            android:id="@+id/main_postLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:text="@string/postAdresi"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF" />
-
-        <EditText
-            android:id="@+id/main_postUrl"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_margin="10dp"
-            android:layout_weight="2"
-            android:background="@drawable/rounded_edit_text"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:text="https://www.instagram.com/p/B0az3QopFYv/?utm_source=ig_web_copy_link"
-            android:textSize="14sp" />
-
-        <CheckBox
-            android:id="@+id/main_record"
-            style="@style/Widget.AppCompat.CompoundButton.CheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|top"
-            android:layout_marginRight="20dp"
-            android:layout_weight="2"
-            android:buttonTint="@android:color/white"
-            android:text="@string/cekilisiKaydet"
-            android:textColor="@android:color/white" />
-
-    </LinearLayout>
 
 
 </RelativeLayout>

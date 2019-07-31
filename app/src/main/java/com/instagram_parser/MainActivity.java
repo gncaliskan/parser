@@ -4,13 +4,14 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.display.DisplayManager;
-import android.hardware.display.VirtualDisplay;
 import android.media.MediaRecorder;
 import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -18,10 +19,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.instagram_parser.Adapter.FeedRecyclerAdapter;
+import com.instagram_parser.Entity.Root;
+import com.instagram_parser.Request.RequestController;
 import com.instagram_parser.Service.FetchCommentsService;
 import com.instagram_parser.Service.ScreenRecordingService;
+import com.instagram_parser.System.Constants;
+import com.instagram_parser.Util.SharedUtil;
 import com.instagram_parser.Util.ToastUtil;
 
 import java.util.ArrayList;
@@ -33,8 +38,8 @@ public class MainActivity extends Activity {
 
     private static Context mainContext;
     private Button loadComments;
-    private EditText postUrl;
     private CheckBox record;
+    private RecyclerView feedRecycler;
     private static String URL = "https://www.instagram.com/p/B0EKAEBFye0";
     private boolean recordPermission = false;
 
@@ -43,6 +48,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainContext = MainActivity.this;
+        //String getUserUrl = Constants.GET_USER_URL + SharedUtil.getDefaults(Constants.SHARED_ACCESS_TOKEN, mainContext) + Constants.COUNT +"10";
+       // Root root = RequestController.getRoot(getUserUrl);
+
+        feedRecycler = findViewById(R.id.main_feeds);
+        feedRecycler.setLayoutManager(new GridLayoutManager(this, 2));
+        //feedRecycler.setAdapter(new FeedRecyclerAdapter(root.getData(), mainContext));
 
         loadComments = findViewById(R.id.main_getComments);
         loadComments.setOnClickListener(new View.OnClickListener() {
@@ -52,15 +63,10 @@ public class MainActivity extends Activity {
                     if (!record.isChecked()) {
                         recordPermission = false;
                     }
-                    if(!postUrl.getText().toString().isEmpty()) {
-                        new FetchCommentsService(postUrl.getText().toString(), recordPermission).execute();
-                    }else{
-                        ToastUtil.show(MainActivity.this,R.string.urlGirilmedi, ToastUtil.TOAST_ERROR);
-                    }
                 }
             }
         });
-        postUrl = findViewById(R.id.main_postUrl);
+
         record = findViewById(R.id.main_record);
         record.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -105,6 +111,8 @@ public class MainActivity extends Activity {
 
         recordPermission = true;
     }
+
+
 
     public static Context getMainContext() {
         return mainContext;
