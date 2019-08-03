@@ -1,18 +1,16 @@
 package com.instagram_parser;
 
 import android.content.Intent;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.instagram_parser.Adapter.CommentListAdapter;
 import com.instagram_parser.Model.Comment;
@@ -36,9 +34,10 @@ public class DrawActivity extends AppCompatActivity {
     List<Comment> comments;
     CommentListAdapter commentListAdapter;
     ListView commentListView;
-    EditText asilCount, yedekCount, etiketCount;
+    EditText asilCount, yedekCount, etiketCount, kelime;
     CheckBox multipleComment;
-    Button cekilisYap,rulesButton;
+    Button cekilisYap,rulesButton, submitRules;
+    ImageView closeRules;
     Map<String, List<Comment>> userCommentMap;
     int total, asil, yedek, uniqueListSize = 0;
     List<Comment> selectedComments;
@@ -59,6 +58,9 @@ public class DrawActivity extends AppCompatActivity {
         rulesButton = findViewById(R.id.draw_rules_button);
         rulesLayout = findViewById(R.id.draw_rules);
         totalSize = findViewById(R.id.draw_total_comment_size);
+        closeRules = findViewById(R.id.draw_rules_close);
+        submitRules = findViewById(R.id.draw_rules_submit);
+        kelime = findViewById(R.id.draw_kelime_text);
         rulesLayout.setVisibility(View.GONE);
         selectedComments = new ArrayList<>();
         comments = CommentList.getInstance().getComments();
@@ -68,13 +70,20 @@ public class DrawActivity extends AppCompatActivity {
         }
 
 
-        commentListAdapter = new CommentListAdapter(getApplicationContext());
+        commentListAdapter = new CommentListAdapter(getApplicationContext(),CommentList.getInstance().getComments(), true);
         commentListView.setAdapter(commentListAdapter);
 
         rulesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                toggleRules();
+            }
+        });
+
+        closeRules.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleRules();
             }
         });
 
@@ -112,19 +121,14 @@ public class DrawActivity extends AppCompatActivity {
             }
         });
 
-        multipleComment.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        submitRules.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            public void onClick(View v) {
                 filterComments();
+                toggleRules();
             }
         });
 
-        etiketCount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                filterComments();
-            }
-        });
     }
 
     private void toggleRules(){
@@ -213,8 +217,13 @@ public class DrawActivity extends AppCompatActivity {
 
     private void filterComments() {
         int labelCount = 0;
+        String matchedWord="";
         if (!etiketCount.getText().toString().isEmpty()) {
             labelCount = Integer.valueOf(etiketCount.getText().toString());
+        }
+
+        if(!kelime.getText().toString().isEmpty()){
+            matchedWord = kelime.getText().toString().trim();
         }
         boolean multipleRejected = multipleComment.isChecked();
 
@@ -229,19 +238,36 @@ public class DrawActivity extends AppCompatActivity {
                         labelSize++;
                     }
                     if (labelSize < labelCount) {
-                        c.setMathedLabelCount(false);
+                        c.setContainLabelCount(false);
                     }
                 }
             } else {
                 for (Comment c : cList) {
-                    c.setMathedLabelCount(true);
+                    c.setContainLabelCount(true);
+                }
+            }
+
+            if (!matchedWord.isEmpty()) {
+                for (Comment c : cList) {
+                    if(c.getCommentText().contains(matchedWord) ||
+                            c.getCommentText().contains(matchedWord.toLowerCase()) ||
+                            c.getCommentText().contains(matchedWord.toUpperCase())){
+                        c.setMatched(true);
+                    }else{
+                        c.setMatched(false);
+                    }
+
+                }
+            } else {
+                for (Comment c : cList) {
+                    c.setMatched(true);
                 }
             }
             if (multipleRejected) {
                 if (cList.size() > 1) {
                     int acceptedCount = 0;
                     for (Comment c : cList) {
-                        if (c.isNotDeleted() && c.isMathedLabelCount()) {
+                        if (c.isNotDeleted() && c.isContainLabelCount() && c.isMatched()) {
                             acceptedCount++;
                         }
                         if (acceptedCount > 1) {
@@ -254,6 +280,7 @@ public class DrawActivity extends AppCompatActivity {
                     c.setAccepted(true);
                 }
             }
+
 
         }
         convertMapToList();

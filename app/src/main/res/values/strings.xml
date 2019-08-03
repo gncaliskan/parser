@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Yonca</string>
     <string name="yorumlariGetir">Yorumları Getir</string>
+    <string name="yorumlarGetiriliyor">Yorumlar Getiriliyor</string>
+    <string name="uzunSurebilir">Bu işlem yorumlarınızın sayısına bağlı olarak birkaç dakika sürebilir.</string>
     <string name="postAdresi">Instagramdaki gönderinizin adresini girin</string>
     <string name="cekilisiKaydet">Çekilişi video olarak kaydet</string>
 
@@ -9,7 +11,9 @@
     <string name="asilSayisi">Asil Sayısı</string>
     <string name="yedekSayisi">Yedek Sayısı</string>
     <string name="etiketSayisi">Yorumun İçindeki Etiket Sayısı</string>
+    <string name="yorumdaKelime">Yorumun İçinde Geçecek Metin</string>
     <string name="cokluYorumaIzınVerme">Aynı Kişiden Çoklu Yoruma İzin Verme</string>
+    <string name="begenenlerdenSec">Gönderiyi Beğenmeyenleri Gizle</string>
     <string name="cekilisYap">Çekiliş Yap</string>
     <string name="talihliler">Talihliler</string>
     <string name="asillar">Asiller</string>
@@ -20,6 +24,8 @@
     <string name="yorumlari">Yorumları</string>
     <string name="tekrarEt">Çekilişi Tekrar Et</string>
     <string name="kaydiDurdur">Kaydı Durdur</string>
+    <string name="videoPaylas">Videoyu Paylaş</string>
+    <string name="uygula">Uygula</string>
 
     <string name="ekranKayitIzniVerilmedi">Ekran Kaydı İçin İzin Verilmedi.</string>
     <string name="bellegeUlasilamadi">Belleğe ulşırken hata oluştu.</string>

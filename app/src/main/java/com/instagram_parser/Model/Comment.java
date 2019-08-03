@@ -12,7 +12,8 @@ public class Comment implements Serializable {
     private boolean isActive;
     private boolean isNotDeleted;
     private boolean isAccepted;
-    private boolean isMathedLabelCount;
+    private boolean isContainLabelCount;
+    private boolean isMatched;
 
     public Comment() {
     }
@@ -25,9 +26,10 @@ public class Comment implements Serializable {
         this.picUrl = picUrl;
         this.created = created;
         this.isNotDeleted = true;
-        this.isMathedLabelCount = true;
+        this.isContainLabelCount = true;
         this.isAccepted =true;
         this.isActive = true;
+        this.isMatched = true;
     }
 
     public String getId() {
@@ -94,12 +96,12 @@ public class Comment implements Serializable {
         isAccepted = accepted;
     }
 
-    public boolean isMathedLabelCount() {
-        return isMathedLabelCount;
+    public boolean isContainLabelCount() {
+        return isContainLabelCount;
     }
 
-    public void setMathedLabelCount(boolean mathedLabelCount) {
-        isMathedLabelCount = mathedLabelCount;
+    public void setContainLabelCount(boolean containLabelCount) {
+        isContainLabelCount = containLabelCount;
     }
 
     public boolean isActive() {
@@ -108,5 +110,13 @@ public class Comment implements Serializable {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public boolean isMatched() {
+        return isMatched;
+    }
+
+    public void setMatched(boolean matched) {
+        isMatched = matched;
     }
 }

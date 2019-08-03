@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.instagram_parser.Model.Comment;
-import com.instagram_parser.Model.CommentList;
 import com.instagram_parser.R;
 
 import java.util.List;
@@ -21,14 +20,14 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
     List<Comment> comments;
     CommentItemHolder holder;
     Context context;
+    boolean canDelete;
 
-    public CommentListAdapter(@NonNull Context context) {
+    public CommentListAdapter(@NonNull Context context, List<Comment> comments, boolean canDelete) {
         super(context, 0);
         inflater = LayoutInflater.from(context);
         this.context = context;
-        this.comments = CommentList.getInstance().getComments();
-
-
+        this.comments = comments;
+        this.canDelete = canDelete;
     }
 
     @Override
@@ -62,7 +61,6 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
             //Get viewholder we already created
             holder = (CommentItemHolder) convertView.getTag();
         }
-        this.comments = CommentList.getInstance().getComments();
         final Comment comment = comments.get(position);
         if(comment != null){
             holder.username.setText(comment.getOwnerName());
@@ -70,17 +68,21 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
 
         }
 
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(comments.get(position).isNotDeleted()) {
-                    comments.get(position).setNotDeleted(false);
-                }else{
-                    comments.get(position).setNotDeleted(true);
+        if(canDelete) {
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (comments.get(position).isNotDeleted()) {
+                        comments.get(position).setNotDeleted(false);
+                    } else {
+                        comments.get(position).setNotDeleted(true);
+                    }
+                    notifyDataSetChanged();
                 }
-                notifyDataSetChanged();
-            }
-        });
+            });
+        }else{
+            holder.delete.setVisibility(View.GONE);
+        }
 
         if(getActiveStatus(comment)){
             holder.delete.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_delete), null);
@@ -94,7 +96,7 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
     }
 
     private boolean getActiveStatus(Comment c){
-        if(c.isMathedLabelCount() && c.isAccepted() && c.isNotDeleted()){
+        if(c.isContainLabelCount() && c.isAccepted() && c.isNotDeleted() && c.isMatched()){
            return true;
         }
         return false;

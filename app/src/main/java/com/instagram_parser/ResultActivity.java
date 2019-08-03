@@ -23,7 +23,7 @@ public class ResultActivity extends AppCompatActivity {
     List<Comment> royal, reserve;
     RecyclerView royalRecycler;
     ListView reservedListView;
-    Button repeat, stopRecording;
+    Button repeat, stopRecording, shareVideo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class ResultActivity extends AppCompatActivity {
         royalRecycler = findViewById(R.id.result_royal_winners);
         reservedListView = findViewById(R.id.result_reserved_winners);
 
-        WinnerRecyclerAdapter royalAdapter = new WinnerRecyclerAdapter(royal);
+        WinnerRecyclerAdapter royalAdapter = new WinnerRecyclerAdapter(royal, ResultActivity.this);
         if (royal.size() > 1) {
             royalRecycler.setLayoutManager(new GridLayoutManager(this, 2));
         } else {
@@ -55,13 +55,34 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
         stopRecording = findViewById(R.id.result_stop_recording);
-        stopRecording.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ScreenRecordingService.stopRecording();
+        shareVideo = findViewById(R.id.result_share_video);
 
-            }
-        });
+        if(ScreenRecordingService.getStatus()!=null && ScreenRecordingService.getStatus().equals(Constants.RECORDING)) {
+            shareVideo.setVisibility(View.GONE);
+            stopRecording.setVisibility(View.VISIBLE);
+            stopRecording.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ScreenRecordingService.stopRecording();
+                    ScreenRecordingService.setStatus(Constants.STOPPED);
+                    stopRecording.setVisibility(View.GONE);
+                    finish();
+                    startActivity(getIntent());
+                }
+            });
+        }else if(ScreenRecordingService.getStatus()!=null && ScreenRecordingService.getStatus().equals(Constants.STOPPED)) {
+            shareVideo.setVisibility(View.VISIBLE);
+            stopRecording.setVisibility(View.GONE);
+            shareVideo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ScreenRecordingService.createVideoShareIntent();
+                }
+            });
+        }else{
+            stopRecording.setVisibility(View.GONE);
+            shareVideo.setVisibility(View.GONE);
+        }
 
 
 

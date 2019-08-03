@@ -86,7 +86,7 @@
             android:background="@drawable/rounded_edit_text"
             android:ems="10"
             android:inputType="textMultiLine"
-            android:text="https://www.instagram.com/p/B0az3QopFYv/?utm_source=ig_web_copy_link"
+            android:text="https://www.instagram.com/p/B0k9NSAH2f6/?utm_source=ig_web_copy_link"
             android:textSize="14sp" />
 
         <CheckBox

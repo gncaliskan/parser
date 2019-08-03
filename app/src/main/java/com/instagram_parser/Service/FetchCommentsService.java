@@ -19,7 +19,9 @@ import com.instagram_parser.Model.Comment;
 import com.instagram_parser.Model.CommentList;
 import com.instagram_parser.Model.Edges;
 import com.instagram_parser.Model.Node;
+import com.instagram_parser.Model.ProxyInfo;
 import com.instagram_parser.Model.Shortcode_media;
+import com.instagram_parser.R;
 import com.instagram_parser.System.Constants;
 
 import org.jsoup.Jsoup;
@@ -30,7 +32,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,20 +55,26 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
     List<Edges> mediaEdgeList;
     JsonParser parser;
     Gson gson;
-    boolean record;
+    HttpURLConnection c = null;
+    Proxy proxy = null;
+    ProxyInfo proxyInfo;
+    int proxyId = 0;
 
-    public FetchCommentsService(String url, boolean record) {
-        this.record = record;
+    public FetchCommentsService(String url) {
         this.url = url;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+
+        proxyInfo = new ProxyInfo();
+        proxyInfo.createProxyMap();
         progressDialog = new ProgressDialog(MainActivity.getMainContext());
-        progressDialog.setTitle("YORUMLAR");
-        progressDialog.setMessage("Yorumlar Çekiliyor...");
+        progressDialog.setTitle(R.string.yorumlarGetiriliyor);
+        progressDialog.setMessage(MainActivity.getMainContext().getResources().getString(R.string.uzunSurebilir));
         progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
         progressDialog.show();
     }
 
@@ -145,6 +155,10 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
         if (after != null) {
             String generatedURL = generateURL(shortcode_media.getShortcode(), String.valueOf(FIRST), after);
             String nextResult = getJSON(generatedURL);
+            if (nextResult != null && nextResult.equals(Constants.CHANGE_PROXY)) {
+                changeProxy();
+                nextResult = getJSON(generatedURL);
+            }
             if (nextResult != null) {
                 JsonElement jsonTree = parser.parse(nextResult);
                 if (jsonTree.isJsonObject()) {
@@ -169,17 +183,10 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
 
 
     public String getJSON(String urlString) {
-        HttpURLConnection c = null;
+
         try {
-            URL u = new URL(urlString);
-            c = (HttpURLConnection) u.openConnection();
-            c.setRequestMethod(REQUEST_METHOD_GET);
-            c.setRequestProperty("Content-length", "0");
-            c.setUseCaches(false);
-            c.setAllowUserInteraction(false);
-            c.setConnectTimeout(CONNECTION_TIMEOUT);
-            c.setReadTimeout(READ_TIMEOUT);
-            c.connect();
+            getConnection(urlString);
+
             int status = c.getResponseCode();
 
             switch (status) {
@@ -193,6 +200,8 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
                     }
                     br.close();
                     return sb.toString();
+                case 429:
+                    return Constants.CHANGE_PROXY;
                 default:
                     BufferedReader brError = new BufferedReader(new InputStreamReader(c.getErrorStream()));
                     StringBuilder sbError = new StringBuilder();
@@ -242,10 +251,11 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
         commentList.setComments(comments);
         Intent intent = new Intent(MainActivity.getMainContext(), DrawActivity.class);
         MainActivity.getMainContext().startActivity(intent);
-        if (record) {
+        if (ScreenRecordingService.getStatus().equals(Constants.WILL_RECORD)) {
             ScreenRecordingService.prepareRecording();
             ScreenRecordingService.mVirtualDisplay = getVirtualDisplay();
             ScreenRecordingService.mMediaRecorder.start();
+            ScreenRecordingService.setStatus(Constants.RECORDING);
         }
     }
 
@@ -258,6 +268,43 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
                 width, height, screenDensity,
                 DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
                 ScreenRecordingService.mMediaRecorder.getSurface(), null /*Callbacks*/, null /*Handler*/);
+
     }
 
+    public void getConnection(String urlString) {
+        URL u;
+        try {
+            u = new URL(urlString);
+            if (proxy == null) {
+                c = (HttpURLConnection) u.openConnection();
+            } else {
+                c = (HttpURLConnection) u.openConnection(proxy);
+            }
+            c.setRequestMethod(REQUEST_METHOD_GET);
+            c.setRequestProperty("Content-length", "0");
+            c.setUseCaches(false);
+            c.setAllowUserInteraction(false);
+            c.setConnectTimeout(CONNECTION_TIMEOUT);
+            c.setReadTimeout(READ_TIMEOUT);
+            c.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void changeProxy() {
+        proxyId++;
+        if (proxyId > proxyInfo.getProxyMapSize()) {
+            try {
+                Thread.sleep(150000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            proxyId = 1;
+        }
+        ProxyInfo pi = proxyInfo.getProxyById(proxyId);
+        proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(pi.getIp(), pi.getPort()));
+
+    }
 }

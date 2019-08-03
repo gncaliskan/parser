@@ -49,23 +49,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/draw_logo">
 
-        <TextView
-            android:id="@+id/draw_etiket_label"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/draw_rules_close"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_weight="1"
-            android:text="@string/etiketSayisi"
-            android:textColor="@android:color/white"
-            app:layout_constraintBottom_toTopOf="@+id/draw_multiple_comment"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_close" />
 
         <EditText
             android:id="@+id/draw_etiket_text"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="44dp"
             android:layout_marginEnd="24dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_edit_text"
@@ -76,20 +74,73 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/draw_etiket_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_weight="1"
+            android:text="@string/etiketSayisi"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/draw_etiket_text"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/draw_kelime_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:text="@string/yorumdaKelime"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@+id/draw_multiple_comment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/draw_etiket_text" />
+
+        <EditText
+            android:id="@+id/draw_kelime_text"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_edit_text"
+            android:ems="3"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/draw_etiket_text" />
+
         <CheckBox
             android:id="@+id/draw_multiple_comment"
             style="@style/Widget.AppCompat.CompoundButton.CheckBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:buttonTint="@android:color/white"
             android:layoutDirection="rtl"
             android:text="@string/cokluYorumaIzınVerme"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/draw_etiket_text" />
+            app:layout_constraintTop_toBottomOf="@+id/draw_kelime_text" />
+
+        <Button
+            android:id="@+id/draw_rules_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/button_shape_secondary"
+            android:text="@string/uygula"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/draw_multiple_comment" />
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
@@ -123,7 +174,7 @@
         android:text="@string/yedekSayisi"
         android:textAlignment="textEnd"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/draw_yedek_text"
         app:layout_constraintEnd_toStartOf="@+id/draw_yedek_text"
         app:layout_constraintTop_toTopOf="@+id/draw_asil_label" />
@@ -131,7 +182,7 @@
     <EditText
         android:id="@+id/draw_yedek_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginEnd="32dp"
         android:layout_weight="1"
         android:background="@drawable/rounded_edit_text"
@@ -146,7 +197,7 @@
     <EditText
         android:id="@+id/draw_asil_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
         android:layout_weight="1"
@@ -169,7 +220,7 @@
         android:text="@string/asilSayisi"
         android:textAlignment="textEnd"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/draw_asil_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/draw_total_layout" />

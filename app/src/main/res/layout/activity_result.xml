@@ -79,21 +79,37 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/result_stop_recording"
+        app:layout_constraintEnd_toStartOf="@id/ll_record_buttons"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/result_stop_recording"
+    <LinearLayout
+        android:id="@+id/ll_record_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/button_shape_secondary"
-        android:text="@string/kaydiDurdur"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/result_stop_recording"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shape_secondary"
+            android:text="@string/kaydiDurdur"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/result_share_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shape_secondary"
+            android:text="@string/videoPaylas"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView6"

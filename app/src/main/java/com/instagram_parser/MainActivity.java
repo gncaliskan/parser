@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.instagram_parser.Service.FetchCommentsService;
 import com.instagram_parser.Service.ScreenRecordingService;
+import com.instagram_parser.System.Constants;
 import com.instagram_parser.Util.ToastUtil;
 
 import java.util.ArrayList;
@@ -51,9 +52,13 @@ public class MainActivity extends Activity {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
                     if (!record.isChecked()) {
                         recordPermission = false;
+                        ScreenRecordingService.setStatus(Constants.WILL_NOT_RECORD);
+                    }else{
+                        ScreenRecordingService.setStatus(Constants.WILL_RECORD);
                     }
                     if(!postUrl.getText().toString().isEmpty()) {
-                        new FetchCommentsService(postUrl.getText().toString(), recordPermission).execute();
+
+                        new FetchCommentsService(postUrl.getText().toString()).execute();
                     }else{
                         ToastUtil.show(MainActivity.this,R.string.urlGirilmedi, ToastUtil.TOAST_ERROR);
                     }
@@ -73,6 +78,7 @@ public class MainActivity extends Activity {
                                     (Context.MEDIA_PROJECTION_SERVICE);
                             ActivityCompat.requestPermissions(MainActivity.this,
                                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+
                             startActivityForResult(ScreenRecordingService.mProjectionManager.createScreenCaptureIntent(), ScreenRecordingService.CAST_PERMISSION_CODE);
                             return;
                         }

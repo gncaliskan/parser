@@ -39,6 +39,7 @@ public class ScreenRecordingService {
     public static VirtualDisplay mVirtualDisplay;
     public static MediaProjectionManager mProjectionManager;
     public static MediaRecorder mMediaRecorder;
+    public static String status;
     static Context context;
     public static List<String> resources;
     public static String targetFile;
@@ -57,7 +58,7 @@ public class ScreenRecordingService {
         if (mMediaProjection != null) {
             mMediaProjection.stop();
         }
-        createVideoShareIntent(filePath);
+        createVideoShareIntent();
 
     }
 
@@ -69,7 +70,7 @@ public class ScreenRecordingService {
 
     }
 
-    private static void createVideoShareIntent(String mediaPath) {
+    public static void createVideoShareIntent() {
 
         Intent share = new Intent(Intent.ACTION_SEND);
 
@@ -77,7 +78,7 @@ public class ScreenRecordingService {
         share.setType("video/*");
 
 
-        File media = new File(mediaPath);
+        File media = new File(filePath);
 
         Uri uri = Uri.fromFile(media);
 
@@ -176,4 +177,11 @@ public class ScreenRecordingService {
         }
     }
 
+    public static String getStatus() {
+        return status;
+    }
+
+    public static void setStatus(String status) {
+        ScreenRecordingService.status = status;
+    }
 }
