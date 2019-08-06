@@ -5,30 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mainBgColor"
-    tools:context=".ResultActivity">
+    tools:context="com.yoncaapp.ResultActivity">
 
-    <ImageView
-        android:id="@+id/imageView5"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:scaleType="centerCrop"
-        android:tint="@color/colorPrimaryDark"
-        android:tintMode="multiply"
+        android:background="@color/colorPrimaryDark"
+        android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@+id/result_repeat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6"
-        app:srcCompat="@drawable/large_bg" />
-
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-        app:layout_constraintEnd_toEndOf="@+id/imageView5"
-        app:layout_constraintStart_toStartOf="@+id/imageView5"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6">
+        app:layout_constraintTop_toBottomOf="@+id/imageView5">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,26 +34,43 @@
                 android:orientation="horizontal" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/result_yedek_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
-                android:background="@color/transparentGray"
+                android:background="@color/transparentWhite"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="@string/yedekTalihliler"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/result_reserved_winners"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:background="@color/transparentWhite" />
+                android:background="@color/mainBgColor" />
 
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:tint="@color/colorAccent"
+        android:tintMode="multiply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/footer_bg" />
 
     <Button
         android:id="@+id/result_repeat"
@@ -114,9 +119,9 @@
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_blue" />
+        app:srcCompat="@drawable/logo_dark" />
 </android.support.constraint.ConstraintLayout>

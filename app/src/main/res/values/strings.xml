@@ -1,13 +1,18 @@
 <resources>
     <string name="app_name">Yonca</string>
+    <string name="urlInstagram">www.instagram.com/p/</string>
+    <string name="yorumlar">Yorumlar</string>
+    <string name="yardim">Yardım</string>
     <string name="yorumlariGetir">Yorumları Getir</string>
     <string name="yorumlarGetiriliyor">Yorumlar Getiriliyor</string>
-    <string name="uzunSurebilir">Bu işlem yorumlarınızın sayısına bağlı olarak birkaç dakika sürebilir.</string>
+    <string name="yorumGetirmeHatasi">Yorumlar getirilirken hata oluştu. \nLütfen bağlantıyı kontrol edip tekrar deneyin.</string>
+    <string name="uzunSurebilir">Bu işlem yorumlarınızın sayısına ve internet hızınıza bağlı olarak birkaç dakika sürebilir.</string>
     <string name="postAdresi">Instagramdaki gönderinizin adresini girin</string>
     <string name="cekilisiKaydet">Çekilişi video olarak kaydet</string>
 
 
-    <string name="kurallar">Çekiliş Kurallarınızı Girin</string>
+    <string name="kurallar">Çekiliş Kurallarını Girin</string>
+    <string name="cekilisKurallari">Çekiliş Kuralları</string>
     <string name="asilSayisi">Asil Sayısı</string>
     <string name="yedekSayisi">Yedek Sayısı</string>
     <string name="etiketSayisi">Yorumun İçindeki Etiket Sayısı</string>
@@ -34,6 +39,7 @@
     <string name="asilTalihliSayisiError">Asıl talihli sayısını girmelisiniz.</string>
     <string name="talihliYorumdanBuyuk">Talihli sayınız yorumların sayısından büyük olamaz.</string>
     <string name="talihliKatilandanBuyuk">Talihli sayınız yorum yapan sayısından büyük olamaz.</string>
+    <string name="tekKullaniciUyari">Kurallarınız gereği kullanıcının birden çok yorumu varsa bile sadece bir yorumu dikkate alınmıştır.</string>
     <string name="urlGirilmedi">Lütfen kampanyanızın bağlantısını girin.</string>
 
 

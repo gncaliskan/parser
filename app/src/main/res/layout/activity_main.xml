@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mainBgColor"
-    tools:context=".MainActivity">
+    tools:context="com.yoncaapp.MainActivity">
 
 
     <ImageView
@@ -14,36 +15,51 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
-        android:src="@drawable/logo_blue" />
+        android:layout_marginEnd="40dp"
+        android:src="@drawable/logo_dark" />
 
     <ImageView
         android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:scaleType="fitEnd"
+        android:src="@drawable/footer_bg"
+        android:tint="@color/colorAccent"
+        android:tintMode="multiply" />
+
+    <TextView
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/linearLayout"
-        android:layout_alignTop="@+id/linearLayout"
-        android:layout_alignEnd="@+id/linearLayout"
-        android:layout_alignBottom="@+id/linearLayout"
-        android:scaleType="centerCrop"
-        android:src="@drawable/small_bg"
-        android:tint="@color/colorPrimary"
-        android:tintMode="multiply" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/yardim"
+        android:textColor="@color/mainBgColor"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/main_getComments"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
         android:layout_weight="10"
-        android:background="@drawable/button_shape_secondary"
+        android:background="@drawable/button_shape"
         android:padding="10dp"
         android:text="@string/yorumlariGetir"
         android:textAllCaps="false"
@@ -52,15 +68,13 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_above="@+id/main_getComments"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="0dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingTop="50dp"
@@ -70,23 +84,27 @@
         <TextView
             android:id="@+id/main_postLabel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:gravity="bottom"
             android:text="@string/postAdresi"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF" />
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/main_postUrl"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:layout_weight="2"
             android:background="@drawable/rounded_edit_text"
             android:ems="10"
             android:inputType="textMultiLine"
-            android:text="https://www.instagram.com/p/B0k9NSAH2f6/?utm_source=ig_web_copy_link"
+            android:text="https://www.instagram.com/p/B00ERZcBnPj/?utm_source=ig_web_copy_link"
             android:textSize="14sp" />
 
         <CheckBox
@@ -96,10 +114,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|top"
             android:layout_marginRight="20dp"
-            android:layout_weight="2"
-            android:buttonTint="@android:color/white"
+            android:layout_weight="1"
             android:text="@string/cekilisiKaydet"
-            android:textColor="@android:color/white" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@android:color/tab_indicator_text"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

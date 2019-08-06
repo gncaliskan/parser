@@ -7,7 +7,7 @@ android {
         google()
     }
     defaultConfig {
-        applicationId "com.instagram_parser"
+        applicationId "com.yoncaapp"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
