@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.yoncaapp.Model.Comment;
 import com.yoncaapp.Model.CommentList;
 import com.yoncaapp.R;
@@ -21,13 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 public class ReservedRecyclerAdapter extends RecyclerView.Adapter<ReservedViewHolder> {
-    List<Comment> reserveds;
-    Activity activity;
-    boolean unique;
+    private final List<Comment> reserveds;
+    private final boolean unique;
 
     public ReservedRecyclerAdapter(List<Comment> reserveds, Activity activity, boolean unique) {
         this.reserveds = reserveds;
-        this.activity = activity;
+        Activity activity1 = activity;
         this.unique = unique;
     }
 
@@ -42,7 +40,7 @@ public class ReservedRecyclerAdapter extends RecyclerView.Adapter<ReservedViewHo
     @Override
     public void onBindViewHolder(final ReservedViewHolder holder, final int position) {
         holder.username.setText(reserveds.get(position).getOwnerName());
-        Glide.with(holder.itemView.getContext()).load(reserveds.get(position).getPicUrl()).apply(RequestOptions.circleCropTransform()).into(holder.profilPic);
+        Glide.with(holder.itemView.getContext()).load(reserveds.get(position).getPicUrl()).into(holder.profilPic);
         holder.reservedComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,8 +79,9 @@ public class ReservedRecyclerAdapter extends RecyclerView.Adapter<ReservedViewHo
 
 
 class ReservedViewHolder extends RecyclerView.ViewHolder {
-   TextView username, reservedComments;
-   ImageView profilPic;
+   final TextView username;
+    final TextView reservedComments;
+   final ImageView profilPic;
 
    public ReservedViewHolder(View itemView) {
        super(itemView);

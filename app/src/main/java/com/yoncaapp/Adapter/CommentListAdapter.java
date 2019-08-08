@@ -12,15 +12,15 @@ import android.widget.TextView;
 
 import com.yoncaapp.Model.Comment;
 import com.yoncaapp.R;
+import com.yoncaapp.Util.LogicUtil;
 
 import java.util.List;
 
 public class CommentListAdapter extends ArrayAdapter<Comment> {
     private final LayoutInflater inflater;
-    List<Comment> comments;
-    CommentItemHolder holder;
-    Context context;
-    boolean canDelete;
+    private final List<Comment> comments;
+    private final Context context;
+    private final boolean canDelete;
 
     public CommentListAdapter(@NonNull Context context, List<Comment> comments, boolean canDelete) {
         super(context, 0);
@@ -48,6 +48,7 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
+        CommentItemHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.comment_list_item, null);
 
@@ -72,10 +73,10 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (comments.get(position).isNotDeleted()) {
+                    if (LogicUtil.getActiveStatus(comments.get(position))) {
                         comments.get(position).setNotDeleted(false);
                     } else {
-                        comments.get(position).setNotDeleted(true);
+                        LogicUtil.setActiveStatus(comments.get(position));
                     }
                     notifyDataSetChanged();
                 }
@@ -84,7 +85,7 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
             holder.delete.setVisibility(View.GONE);
         }
 
-        if(getActiveStatus(comment)){
+        if(LogicUtil.getActiveStatus(comment)){
             holder.delete.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_delete), null);
             convertView.setAlpha(1);
         }else{
@@ -95,12 +96,7 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
         return convertView;
     }
 
-    private boolean getActiveStatus(Comment c){
-        if(c.isContainLabelCount() && c.isAccepted() && c.isNotDeleted() && c.isMatched()){
-           return true;
-        }
-        return false;
-    }
+
 
     private class CommentItemHolder {
         TextView username;

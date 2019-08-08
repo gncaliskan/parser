@@ -1,7 +1,5 @@
 package com.yoncaapp.Model;
 
-import java.util.List;
-
 public class Page_info
 {
     private boolean has_next_page;

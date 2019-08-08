@@ -19,26 +19,22 @@ import java.util.List;
 
 public class ResultActivity extends BaseActivity {
 
-    List<Comment> royal, reserve;
-    RecyclerView royalRecycler, reservedRecycler;
-    Button repeat, stopRecording, shareVideo;
-    TextView reservedLabel;
-    boolean unique;
+    private Button stopRecording;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-        royal = (List<Comment>) getIntent().getSerializableExtra(Constants.ROYAL_LIST);
-        reserve = (List<Comment>) getIntent().getSerializableExtra(Constants.RESERVE_LIST);
-        unique = getIntent().getBooleanExtra(Constants.UNIQUE_USER, false);
-        reservedLabel = findViewById(R.id.result_yedek_label);
+        List<Comment> royal = (List<Comment>) getIntent().getSerializableExtra(Constants.ROYAL_LIST);
+        List<Comment> reserve = (List<Comment>) getIntent().getSerializableExtra(Constants.RESERVE_LIST);
+        boolean unique = getIntent().getBooleanExtra(Constants.UNIQUE_USER, false);
+        TextView reservedLabel = (TextView) findViewById(R.id.result_yedek_label);
         if(reserve.size()==0){
             reservedLabel.setVisibility(View.GONE);
         }
 
-        royalRecycler = findViewById(R.id.result_royal_winners);
-        reservedRecycler = findViewById(R.id.result_reserved_winners);
+        RecyclerView royalRecycler = (RecyclerView) findViewById(R.id.result_royal_winners);
+        RecyclerView reservedRecycler = (RecyclerView) findViewById(R.id.result_reserved_winners);
 
         WinnerRecyclerAdapter royalAdapter = new WinnerRecyclerAdapter(royal, ResultActivity.this, unique);
         if (royal.size() > 1) {
@@ -53,7 +49,7 @@ public class ResultActivity extends BaseActivity {
         reservedRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         reservedRecycler.setAdapter(reservedAdapter);
 
-        repeat = findViewById(R.id.result_repeat);
+        Button repeat = (Button) findViewById(R.id.result_repeat);
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,8 +57,8 @@ public class ResultActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-        stopRecording = findViewById(R.id.result_stop_recording);
-        shareVideo = findViewById(R.id.result_share_video);
+        stopRecording = (Button) findViewById(R.id.result_stop_recording);
+        Button shareVideo = (Button) findViewById(R.id.result_share_video);
 
         if(ScreenRecordingService.getStatus()!=null && ScreenRecordingService.getStatus().equals(Constants.RECORDING)) {
             shareVideo.setVisibility(View.GONE);

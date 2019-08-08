@@ -12,7 +12,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.yoncaapp.Model.Comment;
 import com.yoncaapp.Model.CommentList;
 import com.yoncaapp.R;
@@ -21,13 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 public class WinnerRecyclerAdapter extends RecyclerView.Adapter<WinnerViewHolder> {
-    List<Comment> winners;
-    Activity activity;
-    boolean unique;
+    private final List<Comment> winners;
+    private final boolean unique;
 
     public WinnerRecyclerAdapter(List<Comment> winners, Activity activity, boolean unique) {
         this.winners = winners;
-        this.activity = activity;
+        Activity activity1 = activity;
         this.unique = unique;
     }
 
@@ -42,7 +40,7 @@ public class WinnerRecyclerAdapter extends RecyclerView.Adapter<WinnerViewHolder
     @Override
     public void onBindViewHolder(final WinnerViewHolder holder, final int position) {
         holder.username.setText(winners.get(position).getOwnerName());
-        Glide.with(holder.itemView.getContext()).load(winners.get(position).getPicUrl()).apply(RequestOptions.circleCropTransform()).into(holder.profilPic);
+        Glide.with(holder.itemView.getContext()).load(winners.get(position).getPicUrl()).into(holder.profilPic);
         holder.winnerComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,8 +79,9 @@ public class WinnerRecyclerAdapter extends RecyclerView.Adapter<WinnerViewHolder
 
 
  class WinnerViewHolder extends RecyclerView.ViewHolder {
-    TextView username, winnerComments;
-    ImageView profilPic;
+    final TextView username;
+     final TextView winnerComments;
+    final ImageView profilPic;
 
     public WinnerViewHolder(View itemView) {
         super(itemView);

@@ -13,7 +13,7 @@ public class ProxyInfo {
 
     }
 
-    public ProxyInfo(String ip, int port) {
+    private ProxyInfo(String ip, int port) {
         this.ip = ip;
         this.port = port;
     }

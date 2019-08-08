@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
@@ -46,7 +45,8 @@
         android:layout_marginBottom="8dp"
         android:text="@string/yardim"
         android:textColor="@color/mainBgColor"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/main_getComments"
@@ -90,7 +90,6 @@
             android:layout_weight="1"
             android:gravity="bottom"
             android:text="@string/postAdresi"
-            android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -104,7 +103,6 @@
             android:background="@drawable/rounded_edit_text"
             android:ems="10"
             android:inputType="textMultiLine"
-            android:text="https://www.instagram.com/p/B00ERZcBnPj/?utm_source=ig_web_copy_link"
             android:textSize="14sp" />
 
         <CheckBox

@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -24,16 +23,13 @@ import com.yoncaapp.Util.ToastUtil;
 
 import java.util.ArrayList;
 
-import static android.support.constraint.Constraints.TAG;
 
 
 public class MainActivity extends BaseActivity {
 
     private static Context mainContext;
-    private Button loadComments;
     private EditText postUrl;
     private CheckBox record;
-    private RelativeLayout mainLayout;
     private static String URL = "https://www.instagram.com/p/B0EKAEBFye0";
     private boolean recordPermission = false;
 
@@ -42,9 +38,9 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainContext = MainActivity.this;
-        mainLayout = findViewById(R.id.main_layout);
+        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.main_layout);
         setupUI(mainLayout, this);
-        loadComments = findViewById(R.id.main_getComments);
+        Button loadComments = (Button) findViewById(R.id.main_getComments);
         loadComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,8 +51,8 @@ public class MainActivity extends BaseActivity {
                     }else{
                         ScreenRecordingService.setStatus(Constants.WILL_RECORD);
                     }
-                    if(!postUrl.getText().toString().isEmpty() && postUrl.getText().toString().contains(getResources().getString(R.string.urlInstagram))) {
 
+                    if(!postUrl.getText().toString().isEmpty() && postUrl.getText().toString().contains(getResources().getString(R.string.urlInstagram))) {
                         new FetchCommentsService(postUrl.getText().toString(), MainActivity.this).execute();
                     }else{
                         ToastUtil.show(MainActivity.this,R.string.urlGirilmedi, ToastUtil.TOAST_ERROR);
@@ -64,8 +60,8 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-        postUrl = findViewById(R.id.main_postUrl);
-        record = findViewById(R.id.main_record);
+        postUrl = (EditText) findViewById(R.id.main_postUrl);
+        record = (CheckBox) findViewById(R.id.main_record);
         record.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -93,7 +89,6 @@ public class MainActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode != ScreenRecordingService.CAST_PERMISSION_CODE) {
             // Where did we get this request from ? -_-
-            Log.w(TAG, "Bilinmeyen requestCode " + requestCode);
             return;
         }
         if (resultCode != RESULT_OK) {

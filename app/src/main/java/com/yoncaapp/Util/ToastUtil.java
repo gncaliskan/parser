@@ -13,10 +13,10 @@ import com.yoncaapp.R;
 
 
 public class ToastUtil {
-    public static String TOAST_WARNING = "toast_warning";
-    public static String TOAST_ERROR = "toast_error";
+    public static final String TOAST_WARNING = "toast_warning";
+    public static final String TOAST_ERROR = "toast_error";
     public static String TOAST_INFO = "toast_info";
-    public static String TOAST_SUCCESS = "toast_success";
+    private static final String TOAST_SUCCESS = "toast_success";
 
 
     public static void show(Activity activity, int message, String type){

@@ -41,24 +41,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
-    public static final String REQUEST_METHOD_GET = "GET";
-    public static final int READ_TIMEOUT = 150000;
-    public static final int CONNECTION_TIMEOUT = 150000;
-    public static final int FIRST = 50;
-    public static final int FIRST_COMMENTS_SIZE = 24;
+    private static final String REQUEST_METHOD_GET = "GET";
+    private static final int READ_TIMEOUT = 150000;
+    private static final int CONNECTION_TIMEOUT = 150000;
+    private static final int FIRST = 50;
 
-    Activity activity;
+    private final Activity activity;
     private ProgressDialog progressDialog;
-    private String url;
+    private final String url;
     private List<Comment> comments;
-    private int commentSize;
-    List<Edges> mediaEdgeList;
-    JsonParser parser;
-    Gson gson;
-    HttpURLConnection c = null;
-    Proxy proxy = null;
-    ProxyInfo proxyInfo;
-    int proxyId = 0;
+    private List<Edges> mediaEdgeList;
+    private JsonParser parser;
+    private Gson gson;
+    private HttpURLConnection c = null;
+    private Proxy proxy = null;
+    private ProxyInfo proxyInfo;
+    private int proxyId = 0;
+    private String ownerId;
 
     public FetchCommentsService(String url, Activity activity) {
         this.url = url;
@@ -111,12 +110,10 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
 
                             JsonElement shortcode_media = graphqlObject.get("shortcode_media");
                             Shortcode_media shortcodeMedia = gson.fromJson(shortcode_media, Shortcode_media.class);
-                            commentSize = shortcodeMedia.getEdge_media_to_parent_comment().getCount();
+                            ownerId = shortcodeMedia.getOwner().getId();
                             comments = new ArrayList<>();
                             convertToCommentList(shortcodeMedia);
-                            //if (shortcodeMedia.getEdge_media_to_parent_comment().getEdges().size() == FIRST_COMMENTS_SIZE) {
                             getNextComments(shortcodeMedia, shortcodeMedia.getEdge_media_to_parent_comment().getPage_info().getEnd_cursor());
-                            //}
                         }
                     }
                 }
@@ -143,11 +140,10 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
         }
         for (Edges edge : mediaEdgeList) {
             Node node = edge.getNode();
-            Comment comment = new Comment(node.getId(), node.getOwner().getUsername(), node.getOwner().getId(), node.getText(), node.getOwner().getProfile_pic_url(), node.getCreated_at());
-            if (comments.size() < commentSize) {
+            //hesap sahibinin yorumlarının getirilmemesi için kontrol yapılıyor
+            if(!ownerId.equals(node.getOwner().getId())) {
+                Comment comment = new Comment(node.getId(), node.getOwner().getUsername(), node.getOwner().getId(), node.getText(), node.getOwner().getProfile_pic_url(), node.getCreated_at());
                 comments.add(comment);
-            } else {
-                break;
             }
         }
     }
@@ -183,7 +179,7 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
     }
 
 
-    public String getJSON(String urlString) {
+    private String getJSON(String urlString) {
 
         try {
             getConnection(urlString);
@@ -278,7 +274,7 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
 
     }
 
-    public void getConnection(String urlString) {
+    private void getConnection(String urlString) {
         URL u;
         try {
             u = new URL(urlString);
@@ -300,7 +296,7 @@ public class FetchCommentsService extends AsyncTask<Void, Void, Void> {
 
     }
 
-    public void changeProxy() {
+    private void changeProxy() {
         proxyId++;
         if (proxyId > proxyInfo.getProxyMapSize()) {
             try {

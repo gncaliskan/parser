@@ -38,11 +38,11 @@ public class ScreenRecordingService {
     public static VirtualDisplay mVirtualDisplay;
     public static MediaProjectionManager mProjectionManager;
     public static MediaRecorder mMediaRecorder;
-    public static String status;
+    private static String status;
     public static List<String> resources;
-    public static String targetFile;
+    private static String targetFile;
     private static String filePath;
-    final static String directory = Environment.getExternalStorageDirectory() + File.separator + "Yonca";
+    private final static String directory = Environment.getExternalStorageDirectory() + File.separator + "Yonca";
 
 
     public static void stopRecording() {
@@ -153,7 +153,7 @@ public class ScreenRecordingService {
         }
     }
 
-    static public void deleteDirectory() {
+    private static void deleteDirectory() {
         File path = new File(directory);
         if (path.exists()) {
             File[] files = path.listFiles();

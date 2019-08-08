@@ -16,6 +16,7 @@ import com.yoncaapp.Adapter.CommentListAdapter;
 import com.yoncaapp.Model.Comment;
 import com.yoncaapp.Model.CommentList;
 import com.yoncaapp.System.Constants;
+import com.yoncaapp.Util.LogicUtil;
 import com.yoncaapp.Util.ToastUtil;
 
 import java.io.Serializable;
@@ -31,32 +32,31 @@ import java.util.regex.Pattern;
 
 public class DrawActivity extends BaseActivity {
 
-    List<Comment> comments;
-    CommentListAdapter commentListAdapter;
-    ListView commentListView;
-    EditText asilCount, yedekCount, etiketCount, kelime;
-    CheckBox multipleComment;
-    Button cekilisYap,rulesButton, submitRules;
-    ImageView closeRules;
-    Map<String, List<Comment>> userCommentMap;
-    int total, asil, yedek, uniqueListSize = 0;
-    List<Comment> selectedComments;
-    TextView totalSize;
-    ConstraintLayout drawLayout;
-    Dialog rulesDialog;
+    private List<Comment> comments;
+    private CommentListAdapter commentListAdapter;
+    private EditText asilCount;
+    private EditText yedekCount;
+    private EditText etiketCount;
+    private EditText kelime;
+    private CheckBox multipleComment;
+    private Map<String, List<Comment>> userCommentMap;
+    private int total;
+    private int asil;
+    private int uniqueListSize = 0;
+    private Dialog rulesDialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw);
-        commentListView = findViewById(R.id.draw_comment_list);
-        asilCount = findViewById(R.id.draw_asil_text);
-        yedekCount = findViewById(R.id.draw_yedek_text);
-        cekilisYap = findViewById(R.id.draw_cekilis_button);
-        rulesButton = findViewById(R.id.draw_rules_button);
-        drawLayout = findViewById(R.id.draw_layout);
-        totalSize = findViewById(R.id.draw_total_comment_size);
+        ListView commentListView = (ListView) findViewById(R.id.draw_comment_list);
+        asilCount = (EditText) findViewById(R.id.draw_asil_text);
+        yedekCount = (EditText) findViewById(R.id.draw_yedek_text);
+        final Button cekilisYap = (Button) findViewById(R.id.draw_cekilis_button);
+        Button rulesButton = (Button) findViewById(R.id.draw_rules_button);
+        ConstraintLayout drawLayout = (ConstraintLayout) findViewById(R.id.draw_layout);
+        TextView totalSize = (TextView) findViewById(R.id.draw_total_comment_size);
         createRulesDialog();
         rulesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,11 +66,11 @@ public class DrawActivity extends BaseActivity {
         });
         setupUI(drawLayout, this);
 
-        selectedComments = new ArrayList<>();
+        List<Comment> selectedComments = new ArrayList<>();
         comments = CommentList.getInstance().getComments();
         convertListToMap();
         if(comments!=null) {
-            totalSize.setText(String.valueOf(comments.size()) + " " + getResources().getString(R.string.yorumCekildi));
+            totalSize.setText(comments.size() + " " + getResources().getString(R.string.yorumCekildi));
         }
 
 
@@ -80,40 +80,44 @@ public class DrawActivity extends BaseActivity {
         cekilisYap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Comment> selected = getSelectedComments();
-                Set<Comment> winners = new HashSet<>();
-                if (inputControl(uniqueListSize)) {
-                    do {
-                        Random rand = new Random();
-                        int n = rand.nextInt(selected.size());
-                        boolean alreadySelected = false;
-                        for (Comment winnerComment : winners) {
-                            if (winnerComment.getOwnerId().equals(selected.get(n).getOwnerId())) {
-                                alreadySelected = true;
-                                break;
-                            }
-                        }
-                        if (!alreadySelected) {
-                            winners.add(selected.get(n));
-                        }
-                    } while (winners.size() < total);
-
-
-                    List<Comment> winnerList = new ArrayList<>(winners);
-                    List<Comment> royal = new ArrayList<>(winnerList.subList(0, asil));
-                    List<Comment> reserve = new ArrayList<>(winnerList.subList(asil, total));
-
-                    Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
-                    intent.putExtra(Constants.RESERVE_LIST, (Serializable) reserve);
-                    intent.putExtra(Constants.ROYAL_LIST, (Serializable) royal);
-                    intent.putExtra(Constants.UNIQUE_USER, multipleComment.isChecked());
-                    startActivity(intent);
-                }
+                cekilisiYap();
             }
         });
 
 
 
+    }
+
+    private void cekilisiYap(){
+        List<Comment> selected = getSelectedComments();
+        Set<Comment> winners = new HashSet<>();
+        if (inputControl(uniqueListSize)) {
+            do {
+                Random rand = new Random();
+                int n = rand.nextInt(selected.size());
+                boolean alreadySelected = false;
+                for (Comment winnerComment : winners) {
+                    if (winnerComment.getOwnerId().equals(selected.get(n).getOwnerId())) {
+                        alreadySelected = true;
+                        break;
+                    }
+                }
+                if (!alreadySelected) {
+                    winners.add(selected.get(n));
+                }
+            } while (winners.size() < total);
+
+
+            List<Comment> winnerList = new ArrayList<>(winners);
+            List<Comment> royal = new ArrayList<>(winnerList.subList(0, asil));
+            List<Comment> reserve = new ArrayList<>(winnerList.subList(asil, total));
+
+            Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+            intent.putExtra(Constants.RESERVE_LIST, (Serializable) reserve);
+            intent.putExtra(Constants.ROYAL_LIST, (Serializable) royal);
+            intent.putExtra(Constants.UNIQUE_USER, multipleComment.isChecked());
+            startActivity(intent);
+        }
     }
 
     private void createRulesDialog(){
@@ -126,8 +130,8 @@ public class DrawActivity extends BaseActivity {
         multipleComment = rulesDialog.findViewById(R.id.draw_multiple_comment);
         etiketCount = rulesDialog.findViewById(R.id.draw_etiket_text);
         kelime = rulesDialog.findViewById(R.id.draw_kelime_text);
-        submitRules = rulesDialog.findViewById(R.id.draw_rules_submit);
-        closeRules = rulesDialog.findViewById(R.id.draw_rules_close);
+        Button submitRules = rulesDialog.findViewById(R.id.draw_rules_submit);
+        ImageView closeRules = rulesDialog.findViewById(R.id.draw_rules_close);
         submitRules.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,7 +155,7 @@ public class DrawActivity extends BaseActivity {
         List<Comment> selectedComments = new ArrayList<>();
         uniqueListSize = 0;
         for (Comment c : CommentList.getInstance().getComments()) {
-            if (c.isNotDeleted()) {
+            if (LogicUtil.getActiveStatus(c)) {
                 boolean alreadySelectedUser = false;
                 for (Comment selected : selectedComments) {
                     if (selected.getOwnerId().equals(c.getOwnerId())) {
@@ -199,7 +203,7 @@ public class DrawActivity extends BaseActivity {
         if (!asilCount.getText().toString().isEmpty()) {
             asil = Integer.valueOf(asilCount.getText().toString());
         }
-        yedek = 0;
+        int yedek = 0;
         if (!yedekCount.getText().toString().isEmpty()) {
             yedek = Integer.valueOf(yedekCount.getText().toString());
         }
